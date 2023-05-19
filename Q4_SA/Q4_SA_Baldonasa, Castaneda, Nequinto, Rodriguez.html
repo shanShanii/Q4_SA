@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"> 
+		<meta name="author" content="Castaneda, Rodriguez, Baldonasa, Nequinto"> 
+		<meta name="keywords" content="HTML, CSS, JavaScript"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title> NCE Reviewer </title>
+		
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Bruno+Ace&family=League+Spartan:wght@700&family=Nunito+Sans:opsz,wght@6..12,1000&family=Schibsted+Grotesk:wght@900&family=Space+Grotesk:wght@700&display=swap');
+			
+			body{
+				background-image: url('bg-image.svg');
+				background-size: auto;
+				background-repeat: repeat;
+				margin: 60px;
+				padding: 0px;
+				overflow-x: hidden;
+			}
+			
+			h4{
+				color: white;
+				font-family: League Spartan;
+				font-size: 20px;
+				text-align: center;
+			}
+			
+			h5{
+				color: white;
+				font-family: League Spartan;
+				font-size: 18px;
+				text-align: center;
+			}
+	
+			label{
+				color: white;
+			}
+			
+			h3{
+				color: #D49B54;
+				font-family: League Spartan;
+				font-size: 25px;
+			}
+			
+			span{
+				color: #D49B54;
+			}
+			
+			hr{
+				border: 2px solid white;
+			}
+			
+			input[type="radio"] {
+				appearance: none;
+				-webkit-appearance: none;
+				-moz-appearance: none;
+				background-color: #D49B54;
+				border-radius: 30%;
+				width: 30px;
+				height: 30px;
+				margin-right: 10px;
+				outline: none;
+				cursor: pointer;
+				position: relative;
+				top: -10px;
+				left: 460px;
+			}
+
+			input[type="radio"]:checked:before {
+				content: '';
+				display: block;
+				position: absolute;
+				top: 3px;
+				left: 3px;
+				width: 24px;
+				height: 24px;
+				border-radius: 30%;
+				background-color: #D49B54;
+			}
+
+			input[type="radio"]:checked:after {
+				content: '';
+				display: block;
+				position: absolute;
+				top: 5.5px;
+				left: 5.5px;
+				width: 20px;
+				height: 20px;
+				border-radius: 30%;
+				background-color: white;
+			}
+			
+			label{
+				color: white;
+				font-family: League Spartan;
+				font-size: 20px;
+				position: relative;
+				top: -20px;
+				left: 480px;
+			}
+			
+			label:hover{
+				color: #D49B54;
+				background-color: white;
+				cursor: pointer;
+				padding: 5px;
+			}
+			
+			input[type="submit"],
+			input[type="reset"]{
+				background-color: white;
+				color: #D49B54;
+				position: relative;
+				top: 20px;
+				left: 38%;
+				width: 120px;
+				border: 2px solid #D49B54;
+				padding: 10px 20px;
+				font-size: 20px;
+				font-family: League Spartan;
+				border-radius: 50px;
+				cursor: pointer;
+				transition-duration: 0.4s;
+			}
+
+			input[type="submit"]:hover,
+			input[type="reset"]:hover{
+				background-color: #D49B54;
+				color: white;
+			}
+			
+			#hi{
+				font-size: 60px;
+				font-family: Nunito Sans;
+				color: white;
+				position: relative;
+				top: 60px;
+				left: 37%;
+				letter-spacing: 0.05em;
+			}
+			#eng{
+				color: #D49B54;
+				position: relative;
+				top: 30px;
+				left: 42.5%;
+				font-size: 25px;
+				font-family: League Spartan;
+			}
+			span{
+				color: #D49B54;
+			}
+			
+			#scoresdisplay{
+				margin-top:5px;
+			}
+			table{
+				color: white;
+				font-family: League Spartan;
+				font-size: 20px;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<script>
+			function submitbtn() {
+				document.getElementById("resultsDisplay").style.display = "block";
+				document.getElementById("scoresDisplay").style.display = "block";
+				document.getElementById("resultsDisplay").scrollIntoView({ behavior: 'smooth', block: 'start' });
+			let answers = [];
+			let correct = 0;
+			let allFilledOut = true;
+			for (let i = 1; i < 16; i++) {
+				let currentSelected = document.querySelector('input[name=q' + i + ']:checked');
+				if (currentSelected == null) {
+					allFilledOut = false;
+					break;
+				} else {
+					answers.push([(currentSelected.value).charAt(0), (currentSelected.value).charAt(2)]);
+				}
+			}
+			for (let i = 16; i < 21; i++) {
+				let currentSelected = (document.getElementById("q" + i).value).trim().toLowerCase();
+				if (currentSelected == "") {
+					allFilledOut = false;
+					break;
+				} else {
+					let text = "";
+					switch (i) {
+					case 16:
+						text = "even";
+						break;
+					case 17:
+						text = "so";
+						break;
+					case 18:
+						text = "get";
+						break;
+					case 19:
+						text = "is";
+						break;
+					case 20:
+						text = "stayed";
+						break;
+					}
+					answers.push([currentSelected, text]);
+				}
+			}
+
+			if (allFilledOut == false) {
+				alert("Warning! One or more questions haven't been answered yet!");
+			}
+
+			else {
+				document.getElementById("submit").disabled = true;
+				for (let i = 0; i < 20; i++) {
+					let newRow = document.createElement("tr");
+					let numberDisplay = document.createElement("td");
+					let userAnswerDisplay = document.createElement("td");
+					let correctAnswerDisplay = document.createElement("td");
+					numberDisplay.innerHTML = i + 1;
+					userAnswerDisplay.innerHTML = answers[i][0];
+					correctAnswerDisplay.innerHTML = answers[i][1];
+				  if (answers[i][0] == answers[i][1]) {
+					userAnswerDisplay.style.color = "rgb(50, 255, 50)";
+					correct++;
+				  } else {
+					userAnswerDisplay.style.color = "rgb(255, 50, 50)";
+				  }
+				  newRow.appendChild(numberDisplay);
+				  newRow.appendChild(userAnswerDisplay);
+				  newRow.appendChild(correctAnswerDisplay);
+				  document.getElementById("resultsDisplay").appendChild(newRow);
+				}
+			}
+
+			  document.getElementById("scoresDisplay").innerHTML = "Your Score: " + correct + " out of 20";
+			  
+			}
+
+		function resetbtn() {
+			clearRadioGroup("q1");
+			clearRadioGroup("q2");
+			clearRadioGroup("q3");
+			clearRadioGroup("q4");
+			clearRadioGroup("q5");
+			clearRadioGroup("q6");
+			clearRadioGroup("q7");
+			clearRadioGroup("q8");
+			clearRadioGroup("q9");
+			clearRadioGroup("q10");
+			clearRadioGroup("q11");
+			clearRadioGroup("q12");
+			clearRadioGroup("q13");
+			clearRadioGroup("q14");
+			clearRadioGroup("q15");
+			document.getElementById("q16").value = "";
+			document.getElementById("q17").value = "";
+			document.getElementById("q18").value = "";
+			document.getElementById("q19").value = "";
+			document.getElementById("q20").value = "";
+			document.getElementById("resultsDisplay").innerHTML = "";
+			document.getElementById("scoresDisplay").innerHTML = "";
+			document.getElementById("submit").disabled = false;
+			document.getElementById("scoresDisplay").innerHTML = "";
+		}
+
+		function clearRadioGroup(question) {
+			var qst = document.getElementsByName(question);
+			for (var i = 0; i < qst.length; i++)
+				qst[i].checked = false;
+		}
+		</script>
+			<div id="pageName">
+				<h1 id="hi"> QUIZZER </h1>
+				<p id="eng"> English Category </p>
+			</div>
+
+			<form>
+				<br>
+				<br>
+		 
+				<div id="topquestion"><h3> Direction: Choose the letter that corresponds to the word that correctly completes each analogy. </h3></div>
+				<hr>
+				
+				<h4><span>1.</span> Beaming of light rays : <span>Reflection : </span>: Bending of light rays :</h4>
+					  <input name="q1" id="q1A" type="radio" value="A C" required>
+					  <label for="q1A">Recollection</label><br>
+					  <input name="q1" id="q1B" type="radio" value="B C" required>
+					  <label for="q1B">Rebounding</label><br>
+					  <input name="q1" id="q1C" type="radio" value="C C" required>
+					  <label for="q1C">Refraction</label><br>
+					  <input name="q1" id="q1D" type="radio" value="D C" required>
+					  <label for="q1D">Revelation</label><br>
+				<hr>
+				<hr>
+				<h4><span>2.</span> Barometer : <span>Pressure : </span>: Hygrometer</h4>
+					  <input name="q2" id="q2A" type="radio" value="A B" required>
+					  <label for="q2A">Speed</label><br>
+					  <input name="q2" id="q2B" type="radio" value="B B" required>
+					  <label for="q2B">Humidity</label><br>
+					  <input name="q2" id="q2C" type="radio" value="C B" required>
+					  <label for="q2C">Direction</label><br>
+					  <input name="q2" id="q2D" type="radio" value="D B" required>
+					  <label for="q2D">Rainfall</label><br>
+				<hr>
+				<hr>
+				<h4><span>3.</span> Pores : <span>Sweat : </span>: Stomata : </h4>
+					  <input name="q3" id="q3A" type="radio" value="A A" required>
+					  <label for="q3A">Oxygen</label><br>
+					  <input name="q3" id="q3B" type="radio" value="B A" required>
+					  <label for="q3B">Carbon Dioxide</label><br>
+					  <input name="q3" id="q3C" type="radio" value="C A" required>
+					  <label for="q3C">Nitrogen</label><br>
+					  <input name="q3" id="q3D" type="radio" value="D A" required>
+					  <label for="q3D">Water</label><br>
+				<hr>
+				<hr>
+				<div id="topquestion"><h3>Direction: Choose the letter that corresponds to the word or phrase that means almost the same as the underlined word.</h3></div>
+				<hr>
+				<h4><span>4.</span> That book <span><u>purports</u></span> to the national bestseller.</h4>
+					  <input name="q4" id="q4A" type="radio" value="A A" required>
+					  <label for="q4A">Claims</label><br>
+					  <input name="q4" id="q4B" type="radio" value="B A" required>
+					  <label for="q4B">Disclaims</label><br>
+					  <input name="q4" id="q4C" type="radio" value="C A" required>
+					  <label for="q4C">Argues</label><br>
+					  <input name="q4" id="q4D" type="radio" value="D A" required>
+					  <label for="q4D">Wishes</label><br>
+				<hr>
+				<hr>
+				<h4><span>5.</span> I believe the <span><u>postulate</u></span> that virtue has its own reward.</h4>
+					  <input name="q5" id="q5A" type="radio" value="A C" required>
+					  <label for="q5A">Finding</label><br>
+					  <input name="q5" id="q5B" type="radio" value="B C" required>
+					  <label for="q5B">Science</label><br>
+					  <input name="q5" id="q5C" type="radio" value="C C" required>
+					  <label for="q5C">Principle</label><br>
+					  <input name="q5" id="q5D" type="radio" value="D C" required>
+					  <label for="q5D">Thought</label><br>
+				<hr>
+				<hr>
+				<h4><span>6.</span> Everyone was prohibited from interrupting the Presidents <span><u>tête-à-tête</u></span> with the cabinets.</h4>
+					  <input name="q6" id="q6A" type="radio" value="A C" required>
+					  <label for="q6A">Party</label><br>
+					  <input name="q6" id="q6B" type="radio" value="B C" required>
+					  <label for="q6B">Argument</label><br>
+					  <input name="q6" id="q6C" type="radio" value="C C" required>
+					  <label for="q6C">Private talk</label><br>
+					  <input name="q6" id="q6D" type="radio" value="D C" required>
+					  <label for="q6D">Press conference</label><br>
+				<hr>
+				<hr>
+				<h4><span>7.</span> The burial grounds were considered <span><u>sacrosanct.</u></span></h4>
+					  <input name="q7" id="q7A" type="radio" value="A B" required>
+					  <label for="q7A">Old</label><br>
+					  <input name="q7" id="q7B" type="radio" value="B B" required>
+					  <label for="q7B">Hallowed</label><br>
+					  <input name="q7" id="q7C" type="radio" value="C B" required>
+					  <label for="q7C">Dirty</label><br>
+					  <input name="q7" id="q7D" type="radio" value="D A" required>
+					  <label for="q7D">Haunted</label><br>
+				<hr>
+				<hr>
+				<h4><span>8.</span> The super typhoon <span><u>wreaked </u></span> havoc on the province.</h4>
+					  <input name="q8" id="q8A" type="radio" value="A A" required>
+					  <label for="q8A">Inflicted</label><br>
+					  <input name="q8" id="q8B" type="radio" value="B A" required>
+					  <label for="q8B">Stopped</label><br>
+					  <input name="q8" id="q8C" type="radio" value="C A" required>
+					  <label for="q8C">Promised</label><br>
+					  <input name="q8" id="q8D" type="radio" value="D A" required>
+					  <label for="q8D">Missed</label><br>
+				<hr>
+				<hr> 
+				<h4><span>9.</span> There was a <span><u>bedlam </u></span> in the courtroom after the jury returned a verdict of not guilty.</h4>
+					  <input name="q9" id="q9A" type="radio" value="A D" required>
+					  <label for="q9A">Dread</label><br>
+					  <input name="q9" id="q9B" type="radio" value="B D" required>
+					  <label for="q9B">Commotion</label><br>
+					  <input name="q9" id="q9C" type="radio" value="C D" required>
+					  <label for="q9C">Merriment</label><br>
+					  <input name="q9" id="q9D" type="radio" value="D D" required>
+					  <label for="q9D">Silence</label><br>
+				<hr>
+				<hr>
+				<h4><span>10.</span> It was a situation law abiding citizens <span><u>could not put up with.</u></span></h4>
+					  <input name="q10" id="q10A" type="radio" value="A C" required>
+					  <label for="q10A">Choose</label><br>
+					  <input name="q10" id="q10B" type="radio" value="B C" required>
+					  <label for="q10B">Remedy</label><br>
+					  <input name="q10" id="q10C" type="radio" value="C C" required>
+					  <label for="q10C">Tolerate</label><br>
+					  <input name="q10" id="q10D" type="radio" value="D C" required>
+					  <label for="q10D">Terminate</label><br>
+				<hr>
+				<hr>
+				<h4><span>11.</span> The actress was extremely <span><u>reticent</u></span> about her personal affairs.</h4>
+					  <input name="q11" id="q11A" type="radio" value="A A" required>
+					  <label for="q11A">Guarded</label><br>
+					  <input name="q11" id="q11B" type="radio" value="B A" required>
+					  <label for="q11B">Possessive</label><br>
+					  <input name="q11" id="q11C" type="radio" value="C A" required>
+					  <label for="q11C">Gushing</label><br>
+					  <input name="q11" id="q11D" type="radio" value="D A" required>
+					  <label for="q11D">Conscious</label><br>
+				<hr>
+				<hr>
+				<h4><span>12.</span> The farmer's <span><u>winsome</u></span> daughter became the wife of the newly-elected town mayor.</h4>
+					  <input name="q12" id="q12A" type="radio" value="A B" required>
+					  <label for="q12A">Pleasant</label><br>
+					  <input name="q12" id="q12B" type="radio" value="B B" required>
+					  <label for="q12B">Engaging</label><br>
+					  <input name="q12" id="q12C" type="radio" value="C B" required>
+					  <label for="q12C">Clever</label><br>
+					  <input name="q12" id="q12D" type="radio" value="D B" required>
+					  <label for="q12D">Sophisticated</label><br>
+				<hr>
+				<hr>
+				<h4><span>13.</span> The project was left in <span><u>abeyance</u></span> for the time being.</h4>
+					  <input name="q13" id="q13A" type="radio" value="A A" required>
+					  <label for="q13A">Suspension</label><br>
+					  <input name="q13" id="q13B" type="radio" value="B A" required>
+					  <label for="q13B">Management</label><br>
+					  <input name="q13" id="q13C" type="radio" value="C A" required>
+					  <label for="q13C">Chaos</label><br>
+					  <input name="q13" id="q13D" type="radio" value="D A" required>
+					  <label for="q13D">Scrutiny</label><br>
+				<hr>
+				<hr>
+				<h4><span>14.</span> To listen to a person's <span><u>blandishments</u></span> means most nearly to listen to his:</h4>
+					  <input name="q14" id="q14A" type="radio" value="A D" required>
+					  <label for="q14A">Interesting descriptions</label><br>
+					  <input name="q14" id="q14B" type="radio" value="B D" required>
+					  <label for="q14B">Indirect accusations</label><br>
+					  <input name="q14" id="q14C" type="radio" value="C D" required>
+					  <label for="q14C">Long arguments</label><br>
+					  <input name="q14" id="q14D" type="radio" value="D D" required>
+					  <label for="q14D">Gentle flattery</label><br>
+				<hr>
+				<hr>
+				<h4><span>15.</span> Because I have lived in the city since I was ten years old, I find myself wanting to escape from the <span><u>humdrum</u></span> of urban living.</h4>
+					  <input name="q15" id="q15A" type="radio" value="A B" required>
+					  <label for="q15A">Swiftness</label><br>
+					  <input name="q15" id="q15B" type="radio" value="B B" required>
+					  <label for="q15B">Monotony</label><br>
+					  <input name="q15" id="q15C" type="radio" value="C B" required>
+					  <label for="q15C">Excitement</label><br>
+					  <input name="q15" id="q15D" type="radio" value="D B" required>
+					  <label for="q15D">Fatigue</label><br>
+				<hr>
+				<hr>
+			<div id="topquestion"><h3>Enumeration (SMALL LETTERS only).</h3></div>
+				<h4><span>16.</span>  He always gets up at 5 o'clock in the morning, <input id="q16" type="text"> on holiday.)</h4> 
+				<br><h5>(even, beside, because, when)</h5>
+				<hr>
+				<hr>
+				<h4><span>17.</span> Prices are too high and they will remain <input id="q17" type="text" required> until inflation comes down.</h4> 
+				<br><h5>(so, that, as, there)</h5>
+				<hr>
+				<hr>
+				<h4><span>18.</span> I didn't <input id="q18" type="text" required> to see Allen when I was in New York.</h4>
+				<br><h5>(get, meet, time, take)</h5>
+				<hr>
+				<hr>
+				<h4><span>19.</span> I’ve visited many museums, but my all-time favorite <input id="q19" type="text" required> the National Museum.</h4> 
+				<br><h5>(is, are, in, at)</h5>
+				<hr>
+				<hr>
+				<h4><span>20.</span> Last night they <input id="q20" type="text" required> up working on the project.</h4>
+				<br> <h5>(stayed, stay, stays, staying)</h5>
+				<hr>
+			</form>
+				<div id="btnmenu">
+					<input type="submit" id="submit" onclick="submitbtn()"> </input>
+					<input type="reset" id="reset" onclick="resetbtn()"> </input>
+				</div>
+				<table style="display: none;" id="resultsDisplay">
+				<tr>
+					<th>No.</th>
+					<th>Your Answer</th>
+					<th>Correct Answer</th>
+				</tr>
+				</table>
+				<h4 id="scoresDisplay" style="display:none;">Your Score:</h4>
+	</body>
+</html>
